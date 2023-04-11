@@ -100,23 +100,25 @@ describe('Put Operations', () => {
         expect(ap.totalValue).toBeCloseTo(15088.6, 0)
     });
 
-    test.skip('Second buy with put exercise should', () => {
-        var ap = new AveragePrice("ABCD")
-        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
+    test('Aditional buy through put exercise should update both average prices', () => {
+        var ap = new AveragePrice("EZTC")
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTC", 1000, 15.00)
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.05)
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTCX160E", 1000, 14.00)
+        expect(ap.avgPrice).toBe(14.475);
+        expect(ap.optAvgPrice).toBe(14.475);
+        expect(ap.totalAmount).toBe(2000);
+        expect(ap.totalValue).toBe(15000 + 13950);
     });
 
     test('Non exercised put should change only synth average prices', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTC", 1000, 15.00)
-        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -2000, 0.03)
-        expect(ap.avgPrice).toBe(15.00);
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.03)
+        expect(ap.avgPrice).toBe(14.97);
         expect(ap.optAvgPrice).toBe(14.97);
         expect(ap.totalAmount).toBe(1000);
-        expect(ap.totalValue).toBe(15000);
+        expect(ap.totalValue).toBe(14970);
     });
 })
 

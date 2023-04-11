@@ -49,7 +49,7 @@ class AveragePrice {
         }
         else{
           this.totalAmount += amount
-          this.totalValue += unitPrice * this.totalAmount
+          this.totalValue += unitPrice * amount
           
           this.avgPrice = this.totalValue / this.totalAmount
           this.optAvgPrice = this.avgPrice
@@ -62,6 +62,8 @@ class AveragePrice {
           console.log("Venda de call: " + assetCode)
         } else if( this.isPut(assetCode) ){
           this.optAvgPrice -= unitPrice
+          this.avgPrice = this.optAvgPrice
+          this.totalValue = this.totalAmount * this.avgPrice
         }
         else{
           this.totalAmount += amount
