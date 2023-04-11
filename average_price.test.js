@@ -144,6 +144,31 @@ describe('Put Operations', () => {
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(30);
     });
+
+    test.skip('Put buy back on same value should not change average prices ', () => {
+        var ap = new AveragePrice("ABCD")
+        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
+        // expect(ap.avgPrice).toBe(15.00);
+        // expect(ap.optAvgPrice).toBe(15.00);
+        // expect(ap.totalAmount).toBe(1000);
+        // expect(ap.totalValue).toBe(15000);
+        // expect(ap.callReceivedValue).toBe(0);
+        // expect(ap.putReceivedValue).toBe(0);
+    });
+
+    test.skip('Put buy back on different values should change synth average price', () => {
+        var ap = new AveragePrice("ABCD")
+        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
+        // expect(ap.avgPrice).toBe(15.00);
+        // expect(ap.optAvgPrice).toBe(15.00);
+        // expect(ap.totalAmount).toBe(1000);
+        // expect(ap.totalValue).toBe(15000);
+        // expect(ap.callReceivedValue).toBe(0);
+        // expect(ap.putReceivedValue).toBe(0);
+    });
+
+    test.todo('Implement plain put buy')
+
 })
 
 
@@ -161,7 +186,40 @@ describe('Call Operations', () =>{
         expect(ap.isCall('ABCDX123')).toBeFalsy()
     });
 
-    test.skip('', () => {
+    test.skip('Single call sell should change only synth average price', () => {
+        var ap = new AveragePrice("ABCD")
+        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
+        // expect(ap.avgPrice).toBe(15.00);
+        // expect(ap.optAvgPrice).toBe(15.00);
+        // expect(ap.totalAmount).toBe(1000);
+        // expect(ap.totalValue).toBe(15000);
+        // expect(ap.callReceivedValue).toBe(0);
+        // expect(ap.putReceivedValue).toBe(0);
+    });
+
+    test.skip('Multiple call sells ', () => {
+        var ap = new AveragePrice("ABCD")
+        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
+        // expect(ap.avgPrice).toBe(15.00);
+        // expect(ap.optAvgPrice).toBe(15.00);
+        // expect(ap.totalAmount).toBe(1000);
+        // expect(ap.totalValue).toBe(15000);
+        // expect(ap.callReceivedValue).toBe(0);
+        // expect(ap.putReceivedValue).toBe(0);
+    });
+
+    test.skip('Exercised call should zero values', () => {
+        var ap = new AveragePrice("ABCD")
+        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
+        // expect(ap.avgPrice).toBe(15.00);
+        // expect(ap.optAvgPrice).toBe(15.00);
+        // expect(ap.totalAmount).toBe(1000);
+        // expect(ap.totalValue).toBe(15000);
+        // expect(ap.callReceivedValue).toBe(0);
+        // expect(ap.putReceivedValue).toBe(0);
+    });
+
+    test.skip('Partial sell', () => {
         var ap = new AveragePrice("ABCD")
         // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
         // expect(ap.avgPrice).toBe(15.00);
@@ -202,13 +260,15 @@ describe('Call and Put Mixed Operations', () =>{
         expect(sell_wrapper).toThrow()
     })
 
-    test.skip('', () => {
+    test.skip('Call and put sell on same month ', () => {
         var ap = new AveragePrice("ABCD")
         // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
         // expect(ap.avgPrice).toBe(15.00);
         // expect(ap.optAvgPrice).toBe(15.00);
         // expect(ap.totalAmount).toBe(1000);
         // expect(ap.totalValue).toBe(15000);
+        // expect(ap.callReceivedValue).toBe(0);
+        // expect(ap.putReceivedValue).toBe(0);
     });
 })
 
