@@ -14,7 +14,7 @@ const ASSET_TYPES = ['Ações', 'ETF', OPTIONS_ASSET_NAME]
 const VALID_TERM_TYPE = 'Normal'
 
 const PRESENTATION_SHEET_NAME = 'New Preços Médios'
-const PRESENTATION_SHEET_HEADER = ["Ativo", "Preço Médio", "Preço Médio Sintético"]
+const PRESENTATION_SHEET_HEADER = ["Ativo", "Preço Médio", "Preço Médio Sintético", "Recebido em Calls", "Recebido em Puts"]
 
 function updateAveragePrice() {
   console.info("Updating average price...")
@@ -89,19 +89,20 @@ function writeHeader(s){
   h.setFontWeight("bold")
   h.setHorizontalAlignment("center")
 
-  s.getRange("A1:C1").setValues([PRESENTATION_SHEET_HEADER])
+  s.getRange("A1:E1").setValues([PRESENTATION_SHEET_HEADER])
 
 }
 
 function writeValues(s, v){
-  s.getRange("B:C").setNumberFormat("R$ ???0.00")
+  s.getRange("B:E").setNumberFormat("R$ ???0.00")
   
   var i = 2
   for(const [a, d] of v){
     s.getRange("A" + i).setValue(a)
     s.getRange("B" + i).setValue(d.avgPrice)
-    
     s.getRange("C" + i).setValue(d.optAvgPrice)
+    s.getRange("D" + i).setValue(d.callReceivedValue)
+    s.getRange("E" + i).setValue(d.putReceivedValue)
     i++
   }
 }
