@@ -43,13 +43,20 @@ class AveragePrice {
       case 'Compra':
         if( this.firstBuy() ){
           this.totalAmount = amount
-          this.totalValue = unitPrice * amount
-          this.avgPrice = this.totalValue / this.totalAmount
-          this.optAvgPrice += this.avgPrice 
+          this.optAvgPrice += unitPrice
+          this.avgPrice = this.optAvgPrice 
+          this.totalValue = this.avgPrice * this.totalAmount
+          // if( this.hasBeenExercised(assetCode) ){
+          //   this.avgPrice = this.optAvgPrice
+          //   this.totalValue = this.avgPrice * amount
+          // }else{
+          //   this.totalValue = unitPrice * amount
+          //   this.avgPrice = this.totalValue / this.totalAmount
+          // }
         }
         else{
           this.totalAmount += amount
-          this.totalValue += unitPrice * amount
+          this.totalValue += unitPrice * this.totalAmount
           
           this.avgPrice = this.totalValue / this.totalAmount
           this.optAvgPrice = this.avgPrice

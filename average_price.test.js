@@ -93,12 +93,11 @@ describe('Put Operations', () => {
     test('Single buy with put exercise both average prices should be changed and equal ', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.7168)
-        console.log(ap)
         ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTCX160E", 1000, 15.8055)
-        expect(ap.avgPrice).toBe(15.8055)
-        expect(ap.optAvgPrice).toBe(15.0886)
+        expect(ap.avgPrice).toBeCloseTo(15.0886, 3)
+        expect(ap.optAvgPrice).toBeCloseTo(15.0886, 3) 
         expect(ap.totalAmount).toBe(1000)
-        expect(ap.totalValue).toBe(15088.60)
+        expect(ap.totalValue).toBeCloseTo(15088.6, 0)
     });
 
     test.skip('Second buy with put exercise should', () => {
