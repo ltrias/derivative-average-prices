@@ -10,6 +10,8 @@ class AveragePrice {
     this.totalValue = 0
     this.avgPrice = 0
     this.optAvgPrice = 0
+    this.callReceivedValue = 0
+    this.putReceivedValue = 0
     this.operationLog = new Map()
   }
 
@@ -57,10 +59,12 @@ class AveragePrice {
         break;
       case 'Venda':
         if( this.isCall(assetCode) ){
+          this.callReceivedValue += Math.abs(amount) * unitPrice
           // this.optAvgPrice -= unitPrice
           // throw "PArei aqui"
           console.log("Venda de call: " + assetCode)
         } else if( this.isPut(assetCode) ){
+          this.putReceivedValue += Math.abs(amount) * unitPrice
           this.optAvgPrice -= unitPrice
           this.avgPrice = this.optAvgPrice
           this.totalValue = this.totalAmount * this.avgPrice
