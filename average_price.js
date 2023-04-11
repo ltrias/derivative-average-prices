@@ -61,11 +61,6 @@ class AveragePrice {
           // throw "PArei aqui"
           console.log("Venda de call: " + assetCode)
         } else if( this.isPut(assetCode) ){
-          // console.log("Venda de Put: " + assetCode)
-          // this.totalAmount += amount
-          // this.totalValue += unitPrice * amount
-          
-          // this.avgPrice = this.totalValue / this.totalAmount
           this.optAvgPrice -= unitPrice
         }
         else{

@@ -109,13 +109,14 @@ describe('Put Operations', () => {
         // expect(ap.totalValue).toBe(15000);
     });
 
-    test.skip('Non exercised put should change only synth average prices', () => {
+    test('Non exercised put should change only synth average prices', () => {
         var ap = new AveragePrice("ABCD")
-        // ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTC", 1000, 15.00)
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -2000, 0.03)
+        expect(ap.avgPrice).toBe(15.00);
+        expect(ap.optAvgPrice).toBe(14.97);
+        expect(ap.totalAmount).toBe(1000);
+        expect(ap.totalValue).toBe(15000);
     });
 })
 
