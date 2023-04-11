@@ -46,13 +46,6 @@ class AveragePrice {
           this.optAvgPrice += unitPrice
           this.avgPrice = this.optAvgPrice 
           this.totalValue = this.avgPrice * this.totalAmount
-          // if( this.hasBeenExercised(assetCode) ){
-          //   this.avgPrice = this.optAvgPrice
-          //   this.totalValue = this.avgPrice * amount
-          // }else{
-          //   this.totalValue = unitPrice * amount
-          //   this.avgPrice = this.totalValue / this.totalAmount
-          // }
         }
         else{
           this.totalAmount += amount
