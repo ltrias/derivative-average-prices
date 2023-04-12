@@ -120,6 +120,13 @@ describe('Put Operations', () => {
         expect(ap.putReceivedValue).toBe(716.8);
     });
 
+    test('Put sell should change put total value ', () => {
+        var ap = new AveragePrice("EZTC")
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 1)
+
+        expect(ap.putReceivedValue).toBe(1000);
+    });
+
     test('Aditional buy through put exercise should update both average prices', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTC", 1000, 15.00)
@@ -184,6 +191,13 @@ describe('Call Operations', () =>{
         expect(ap.isCall('ABCDL123')).toBeTruthy()
         expect(ap.isCall('ABCDM123')).toBeFalsy()
         expect(ap.isCall('ABCDX123')).toBeFalsy()
+    });
+
+    test('Call sell should change put total value ', () => {
+        var ap = new AveragePrice("EZTC")
+        ap.addOperation(Date.parse('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCA160", -1000, 1)
+
+        expect(ap.callReceivedValue).toBe(1000);
     });
 
     test.skip('Single call sell should change only synth average price', () => {
