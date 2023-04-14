@@ -4,6 +4,13 @@ describe('Average Price construction', () =>{
     test('AP should know its asset name', () => {
         expect(new AveragePrice("ABCD").assetName).toBe("ABCD");
     });
+    test('AP throw when adding operation of other asset', () => {
+        function operation_wrapper(){
+            new AveragePrice("XPTO").addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Venda", "ABCD", 1000, 15.00)
+        }
+
+        expect(operation_wrapper).toThrow()
+    });
     
     test('Eventless average price should be 0', () => {
         expect(new AveragePrice("ABCD").avgPrice).toBe(0);
@@ -366,10 +373,4 @@ describe('Call and Put Mixed Operations', () =>{
         // expect(ap.callReceivedValue).toBe(0);
         // expect(ap.putReceivedValue).toBe(0);
     });
-})
-
-
-
-test('', () => {
-    expect(new AveragePrice("ABCD").avgPrice).toBe(0);
 })
