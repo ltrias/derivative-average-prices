@@ -36,7 +36,13 @@ class AveragePrice {
       throw "Operação, quantidade ou ativo inválidos"
     }
 
-    this.operationLog.set(assetCode, {arguments})
+    var k = date.getMonth() + "-" + date.getFullYear()
+    var v = this.operationLog.get(k)
+    if( !v ){
+      v = new Array()
+    }
+    v.push(arguments)
+    this.operationLog.set(k, v)
 
     if(assetCode.startsWith("EZTC")) {
       console.log(arguments)

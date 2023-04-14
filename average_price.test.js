@@ -162,8 +162,8 @@ describe('Put Operations', () => {
     test('Put buyback on same value should not change average prices ', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.03)
+        ap.addOperation(new Date('01 Jan 1971 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
+        ap.addOperation(new Date('02 Jan 1971 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.03)
         expect(ap.avgPrice).toBe(15.00);
         expect(ap.optAvgPrice).toBe(15.00);
         expect(ap.totalAmount).toBe(1000);
