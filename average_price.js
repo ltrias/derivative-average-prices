@@ -7,12 +7,17 @@ class AveragePrice {
 
     this.assetName = assetName
     this.totalAmount = 0;
+
     this.totalValue = 0
     this.avgPrice = 0
+    
+    this.optTotalValue = 0
     this.optAvgPrice = 0
+    
     this.callReceivedValue = 0
     this.putReceivedValue = 0
-    this.operationLog = new Map()
+
+    this.operationLog = new Map() //may be unnecessary
   }
 
   /*
@@ -42,22 +47,25 @@ class AveragePrice {
       case 'Compra':
         if( this.isPut(assetCode) && !this.hasBeenExercised(assetCode) ){
           this.putReceivedValue -= amount * unitPrice
-          this.optAvgPrice += unitPrice
-          this.avgPrice = this.optAvgPrice //this might be a bug 
-          this.totalValue = this.totalAmount * this.avgPrice
+          this.optAvgPrice += unitPrice 
+          this.optTotalValue = this.totalAmount * this.optAvgPrice
         }else{
           if( this.firstBuy() ){
             this.totalAmount = amount
             this.optAvgPrice += unitPrice
             this.avgPrice = this.optAvgPrice 
             this.totalValue = this.avgPrice * this.totalAmount
+            this.optTotalValue = this.totalValue
           }
           else{
+            var lastAmount = this.totalAmount
             this.totalAmount += amount
             this.totalValue += unitPrice * amount
+            this.optTotalValue += unitPrice * amount
             
             this.avgPrice = this.totalValue / this.totalAmount
-            this.optAvgPrice = this.avgPrice
+            this.optAvgPrice = this.optTotalValue / this.totalAmount//this.avgPrice - this.putReceivedValue / lastAmount
+            this.optTotalValue = this.optAvgPrice * this.totalAmount
           }
         }
         break;
@@ -68,8 +76,8 @@ class AveragePrice {
         } else if( this.isPut(assetCode) ){
           this.putReceivedValue += Math.abs(amount) * unitPrice
           this.optAvgPrice -= unitPrice
-          this.avgPrice = this.optAvgPrice
           this.totalValue = this.totalAmount * this.avgPrice
+          this.optTotalValue = this.totalAmount * this.optAvgPrice
         }
         else{
           this.totalAmount += amount
@@ -79,8 +87,10 @@ class AveragePrice {
             this.totalValue = 0
             this.avgPrice = 0
             this.optAvgPrice = 0
+            this.optTotalValue = 0
           }else{
             this.totalValue = this.avgPrice * this.totalAmount
+            this.optTotalValue = this.optAvgPrice * this.totalAmount
           }
         }
         break;

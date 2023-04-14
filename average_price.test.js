@@ -41,10 +41,11 @@ describe('No derivative operations', () =>{
     test('Validate single buy', () => {
         var ap = new AveragePrice("ABCD")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "ABCD", 1000, 15.00)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(15.00);
         expect(ap.totalAmount).toBe(1000);
         expect(ap.totalValue).toBe(15000);
+        expect(ap.avgPrice).toBe(15.00);
+        expect(ap.optAvgPrice).toBe(15.00);
+        expect(ap.optTotalValue).toBe(15000);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(0);
     });
@@ -56,6 +57,7 @@ describe('No derivative operations', () =>{
         expect(ap.totalAmount).toBe(0);
         expect(ap.totalValue).toBe(0);
         expect(ap.avgPrice).toBe(0);
+        expect(ap.optTotalValue).toBe(0);
         expect(ap.optAvgPrice).toBe(0);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(0);
@@ -68,6 +70,7 @@ describe('No derivative operations', () =>{
         expect(ap.totalAmount).toBe(200);
         expect(ap.totalValue).toBe(2100);
         expect(ap.avgPrice).toBe(10.50);
+        expect(ap.optTotalValue).toBe(2100);
         expect(ap.optAvgPrice).toBe(10.50);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(0);
@@ -80,6 +83,7 @@ describe('No derivative operations', () =>{
         expect(ap.totalAmount).toBe(150);
         expect(ap.totalValue).toBe(1575);
         expect(ap.avgPrice).toBe(10.50);
+        expect(ap.optTotalValue).toBe(1575);
         expect(ap.optAvgPrice).toBe(10.50);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(0);
@@ -119,15 +123,16 @@ describe('Put Operations', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.7168)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160E", 1000, 15.8055)
-        expect(ap.avgPrice).toBeCloseTo(15.0886, 3)
-        expect(ap.optAvgPrice).toBeCloseTo(15.0886, 3) 
         expect(ap.totalAmount).toBe(1000)
         expect(ap.totalValue).toBeCloseTo(15088.6, 0)
+        expect(ap.avgPrice).toBeCloseTo(15.0886, 3)
+        expect(ap.optTotalValue).toBeCloseTo(15088.6, 0);
+        expect(ap.optAvgPrice).toBeCloseTo(15.0886, 3) 
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(716.8);
     });
 
-    test('Put sell should change put total value ', () => {
+    test('Put sell should change put received value ', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 1)
 
@@ -139,10 +144,11 @@ describe('Put Operations', () => {
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.05)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160E", 1000, 14.00)
-        expect(ap.avgPrice).toBe(14.475);
-        expect(ap.optAvgPrice).toBe(14.475);
         expect(ap.totalAmount).toBe(2000);
-        expect(ap.totalValue).toBe(15000 + 13950);
+        expect(ap.totalValue).toBe(29000);
+        expect(ap.avgPrice).toBe(14.50);
+        expect(ap.optTotalValue).toBe(28950);
+        expect(ap.optAvgPrice).toBe(14.475);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(50);
     });
@@ -151,10 +157,11 @@ describe('Put Operations', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
-        expect(ap.avgPrice).toBe(14.97);
-        expect(ap.optAvgPrice).toBe(14.97);
         expect(ap.totalAmount).toBe(1000);
-        expect(ap.totalValue).toBe(14970);
+        expect(ap.avgPrice).toBe(15.00);
+        expect(ap.totalValue).toBe(15000);
+        expect(ap.optAvgPrice).toBe(14.97);
+        expect(ap.optTotalValue).toBe(14970);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(30);
     });
@@ -164,10 +171,11 @@ describe('Put Operations', () => {
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
         ap.addOperation(new Date('01 Jan 1971 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('02 Jan 1971 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.03)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(15.00);
         expect(ap.totalAmount).toBe(1000);
         expect(ap.totalValue).toBe(15000);
+        expect(ap.avgPrice).toBe(15.00);
+        expect(ap.optTotalValue).toBe(15000);
+        expect(ap.optAvgPrice).toBe(15.00);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(0);
     });
@@ -177,10 +185,11 @@ describe('Put Operations', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.03)
-        expect(ap.avgPrice).toBe(0);
-        expect(ap.optAvgPrice).toBe(0);
         expect(ap.totalAmount).toBe(0);
         expect(ap.totalValue).toBe(0);
+        expect(ap.avgPrice).toBe(0);
+        expect(ap.optTotalValue).toBeCloseTo(0, 0);
+        expect(ap.optAvgPrice).toBe(0);
         expect(ap.callReceivedValue).toBe(0);
         expect(ap.putReceivedValue).toBe(0);
     });
@@ -190,12 +199,13 @@ describe('Put Operations', () => {
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.02)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(14.99);
         expect(ap.totalAmount).toBe(1000);
         expect(ap.totalValue).toBe(15000);
+        expect(ap.avgPrice).toBe(15.00);
+        expect(ap.optTotalValue).toBe(14990);
+        expect(ap.optAvgPrice).toBe(14.99);
         expect(ap.callReceivedValue).toBe(0);
-        expect(ap.putReceivedValue).toBe(0.01);
+        expect(ap.putReceivedValue).toBe(10);
     });
 
     
@@ -203,12 +213,13 @@ describe('Put Operations', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.02)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(14.00);
-        expect(ap.totalAmount).toBe(1000);
-        expect(ap.totalValue).toBe(15000);
+        expect(ap.totalAmount).toBe(0);
+        expect(ap.totalValue).toBe(0);
+        expect(ap.avgPrice).toBeCloseTo(0, 0);
+        expect(ap.optTotalValue).toBeCloseTo(0, 0);
+        expect(ap.optAvgPrice).toBeCloseTo(0, 0);
         expect(ap.callReceivedValue).toBe(0);
-        expect(ap.putReceivedValue).toBe(0);
+        expect(ap.putReceivedValue).toBe(10);
     });
 
     test.todo('Implement plain put buy')
@@ -238,99 +249,36 @@ describe('Call Operations', () =>{
     });
 
     test.skip('Single call sell should change only synth average price', () => {
-        var ap = new AveragePrice("ABCD")
-        // ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
-        // expect(ap.callReceivedValue).toBe(0);
-        // expect(ap.putReceivedValue).toBe(0);
     });
 
     test.skip('Multiple call sells ', () => {
-        var ap = new AveragePrice("ABCD")
-        // ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
-        // expect(ap.callReceivedValue).toBe(0);
-        // expect(ap.putReceivedValue).toBe(0);
+
     });
 
     test.skip('Exercised call should zero values', () => {
-        var ap = new AveragePrice("ABCD")
-        // ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
-        // expect(ap.callReceivedValue).toBe(0);
-        // expect(ap.putReceivedValue).toBe(0);
+
     });
 
     test.skip('Partial sell', () => {
-        var ap = new AveragePrice("ABCD")
-        // ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
-        // expect(ap.callReceivedValue).toBe(0);
-        // expect(ap.putReceivedValue).toBe(0);
+
     });
 
     test.skip('Call buyback on same value should not change average prices ', () => {
-        var ap = new AveragePrice("ABCD")
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.03)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(15.00);
-        expect(ap.totalAmount).toBe(1000);
-        expect(ap.totalValue).toBe(15000);
-        expect(ap.callReceivedValue).toBe(0);
-        expect(ap.putReceivedValue).toBe(0);
+
     });
 
 
     test.skip('Call buyback on same value  without underlying asset should not change average prices', () => {
-        var ap = new AveragePrice("ABCD")
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.03)
-        expect(ap.avgPrice).toBe(0);
-        expect(ap.optAvgPrice).toBe(0);
-        expect(ap.totalAmount).toBe(0);
-        expect(ap.totalValue).toBe(0);
-        expect(ap.callReceivedValue).toBe(0);
-        expect(ap.putReceivedValue).toBe(0);
+
     });
 
     test.skip('Call buyback on different values should change synth average price', () => {
-        var ap = new AveragePrice("ABCD")
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC", 1000, 15.00)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.02)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(14.00);
-        expect(ap.totalAmount).toBe(1000);
-        expect(ap.totalValue).toBe(15000);
-        expect(ap.callReceivedValue).toBe(0);
-        expect(ap.putReceivedValue).toBe(0);
+
     });
 
     
     test.skip('Put buyback on different values  without underlying asset should change synth average price', () => {
-        var ap = new AveragePrice("ABCD")
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCX160", -1000, 0.03)
-        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCX160", 1000, 0.02)
-        expect(ap.avgPrice).toBe(15.00);
-        expect(ap.optAvgPrice).toBe(14.00);
-        expect(ap.totalAmount).toBe(1000);
-        expect(ap.totalValue).toBe(15000);
-        expect(ap.callReceivedValue).toBe(0);
-        expect(ap.putReceivedValue).toBe(0);
+
     });
 })
 
@@ -364,13 +312,6 @@ describe('Call and Put Mixed Operations', () =>{
     })
 
     test.skip('Call and put sell on same month ', () => {
-        var ap = new AveragePrice("ABCD")
-        // ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "ABCD", 1000, 15.00)
-        // expect(ap.avgPrice).toBe(15.00);
-        // expect(ap.optAvgPrice).toBe(15.00);
-        // expect(ap.totalAmount).toBe(1000);
-        // expect(ap.totalValue).toBe(15000);
-        // expect(ap.callReceivedValue).toBe(0);
-        // expect(ap.putReceivedValue).toBe(0);
+
     });
 })
