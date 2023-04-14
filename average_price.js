@@ -32,7 +32,7 @@ class AveragePrice {
     - compra coberta de put sem exercício -> nao tratar
   */
   addOperation(date, operationType, assetCode, amount, unitPrice){
-    if( (amount <= 0 && operationType == "Compra") || (amount >= 0 && operationType == "Venda") || assetCode != this.assetName ){
+    if( (amount <= 0 && operationType == "Compra") || (amount >= 0 && operationType == "Venda") || assetCode.substring(0, 4) != this.assetName ){
       throw "Operação, quantidade ou ativo inválidos"
     }
 
