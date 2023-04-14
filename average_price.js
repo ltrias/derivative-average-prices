@@ -36,38 +36,34 @@ class AveragePrice {
       throw "Operação, quantidade ou ativo inválidos"
     }
 
-    var k = date.getMonth() + "-" + date.getFullYear()
-    var v = this.operationLog.get(k)
-    if( !v ){
-      v = new Array()
-    }
-    v.push(arguments)
-    this.operationLog.set(k, v)
+    this.logOperation(date);
 
-    if(assetCode.startsWith("EZTC")) {
-      console.log(arguments)
-    }
     switch(operationType){
       case 'Compra':
-        if( this.firstBuy() ){
-          this.totalAmount = amount
+        if( this.isPut(assetCode) && !this.hasBeenExercised(assetCode) ){
+          this.putReceivedValue -= amount * unitPrice
           this.optAvgPrice += unitPrice
-          this.avgPrice = this.optAvgPrice 
-          this.totalValue = this.avgPrice * this.totalAmount
-        }
-        else{
-          this.totalAmount += amount
-          this.totalValue += unitPrice * amount
-          
-          this.avgPrice = this.totalValue / this.totalAmount
-          this.optAvgPrice = this.avgPrice
+          this.avgPrice = this.optAvgPrice //this might be a bug 
+          this.totalValue = this.totalAmount * this.avgPrice
+        }else{
+          if( this.firstBuy() ){
+            this.totalAmount = amount
+            this.optAvgPrice += unitPrice
+            this.avgPrice = this.optAvgPrice 
+            this.totalValue = this.avgPrice * this.totalAmount
+          }
+          else{
+            this.totalAmount += amount
+            this.totalValue += unitPrice * amount
+            
+            this.avgPrice = this.totalValue / this.totalAmount
+            this.optAvgPrice = this.avgPrice
+          }
         }
         break;
       case 'Venda':
         if( this.isCall(assetCode) ){
           this.callReceivedValue += Math.abs(amount) * unitPrice
-          // this.optAvgPrice -= unitPrice
-          // throw "PArei aqui"
           console.log("Venda de call: " + assetCode)
         } else if( this.isPut(assetCode) ){
           this.putReceivedValue += Math.abs(amount) * unitPrice
@@ -93,6 +89,16 @@ class AveragePrice {
     }
   }
 
+
+  logOperation(date) {
+    var k = date.getMonth() + "-" + date.getFullYear();
+    var v = this.operationLog.get(k);
+    if (!v) {
+      v = new Array();
+    }
+    v.push(arguments);
+    this.operationLog.set(k, v);
+  }
 
   isCall(assetCode){
     return assetCode.charCodeAt(4) && assetCode.charCodeAt(4) >= 65 && assetCode.charCodeAt(4) <= 76
