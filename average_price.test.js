@@ -160,7 +160,7 @@ describe('Put Operations', () => {
     });
 
     test('Put buyback on same value should not change average prices ', () => {
-        var ap = new AveragePrice("ABCD")
+        var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTC", 1000, 15.00)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTCX160", 1000, 0.03)
@@ -174,7 +174,7 @@ describe('Put Operations', () => {
 
 
     test('Put buyback on same value without underlying asset should not change average prices', () => {
-        var ap = new AveragePrice("ABCD")
+        var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTCX160", 1000, 0.03)
         expect(ap.avgPrice).toBe(0);
@@ -186,7 +186,7 @@ describe('Put Operations', () => {
     });
 
     test('Put buyback on different values should change synth average price', () => {
-        var ap = new AveragePrice("ABCD")
+        var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTC", 1000, 15.00)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTCX160", 1000, 0.02)
@@ -200,7 +200,7 @@ describe('Put Operations', () => {
 
     
     test('Put buyback on different values without underlying asset should change synth average price', () => {
-        var ap = new AveragePrice("ABCD")
+        var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Venda", "EZTCX160", -1000, 0.03)
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT'), "Compra", "EZTCX160", 1000, 0.02)
         expect(ap.avgPrice).toBe(15.00);
