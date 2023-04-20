@@ -262,8 +262,19 @@ describe('Call Operations', () =>{
         expect(ap.putReceivedValue).toBe(0);
     });
 
-    test.skip('Multiple call sells ', () => {
+    test('Multiple call sells ', () => {
+        var ap = new AveragePrice("TRPL")
 
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "TRPL4", 300, 2.00)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLK245", -300, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLL245", -300, 0.03)
+        expect(ap.totalAmount).toBe(300);
+        expect(ap.totalValue).toBe(600);
+        expect(ap.avgPrice).toBe(2.00);
+        expect(ap.optTotalValue).toBe(585);
+        expect(ap.optAvgPrice).toBeCloseTo(1.95);
+        expect(ap.callReceivedValue).toBe(15);
+        expect(ap.putReceivedValue).toBe(0);
     });
 
     test('Exercised call should zero values', () => {
@@ -282,25 +293,67 @@ describe('Call Operations', () =>{
     });
 
     test.skip('Partial sell', () => {
-        throw "kabum"
+        throw "To bem implemented..."
     });
 
-    test.skip('Call buyback on same value should not change average prices ', () => {
-        throw "kabum"
+    test('Call buyback on same value should not change average prices ', () => {
+        var ap = new AveragePrice("EZTC")
+
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC3", 1000, 1.50)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCA160", -1000, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCA160", 1000, 0.02)
+        expect(ap.totalAmount).toBe(1000);
+        expect(ap.totalValue).toBe(1500);
+        expect(ap.avgPrice).toBe(1.50);
+        expect(ap.optTotalValue).toBe(1500);
+        expect(ap.optAvgPrice).toBe(1.50);
+        expect(ap.callReceivedValue).toBe(0);
+        expect(ap.putReceivedValue).toBe(0);
     });
 
 
-    test.skip('Call buyback on same value  without underlying asset should not change average prices', () => {
-        throw "kabum"
+    test('Call buyback on same value without underlying asset should not change average prices', () => {
+        var ap = new AveragePrice("EZTC")
+
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCA160", -1000, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCA160", 1000, 0.02)
+        expect(ap.totalAmount).toBe(0);
+        expect(ap.totalValue).toBe(0);
+        expect(ap.avgPrice).toBe(0);
+        expect(ap.optTotalValue).toBe(0);
+        expect(ap.optAvgPrice).toBe(0);
+        expect(ap.callReceivedValue).toBe(0);
+        expect(ap.putReceivedValue).toBe(0);
     });
 
-    test.skip('Call buyback on different values should change synth average price', () => {
-        throw "kabum"
+    test('Call buyback on different values should change synth average price', () => {
+        var ap = new AveragePrice("EZTC")
+
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC3", 1000, 1.50)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCA160", -1000, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCA160", 1000, 0.05)
+        expect(ap.totalAmount).toBe(1000);
+        expect(ap.totalValue).toBe(1500);
+        expect(ap.avgPrice).toBe(1.50);
+        expect(ap.optTotalValue).toBe(1530);
+        expect(ap.optAvgPrice).toBe(1.53);
+        expect(ap.callReceivedValue).toBe(-30);
+        expect(ap.putReceivedValue).toBe(0);
     });
 
     
-    test.skip('Put buyback on different values  without underlying asset should change synth average price', () => {
-        throw "kabum"
+    test('Put buyback on different values  without underlying asset should change synth average price', () => {
+        var ap = new AveragePrice("EZTC")
+
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCA160", -1000, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTCA160", 1000, 0.05)
+        expect(ap.totalAmount).toBe(0);
+        expect(ap.totalValue).toBe(0);
+        expect(ap.avgPrice).toBe(0);
+        expect(ap.optTotalValue).toBe(0);
+        expect(ap.optAvgPrice).toBeCloseTo(0.03, 3);
+        expect(ap.callReceivedValue).toBe(-30);
+        expect(ap.putReceivedValue).toBe(0);
     });
 })
 

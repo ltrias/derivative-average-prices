@@ -49,6 +49,10 @@ class AveragePrice {
           this.putReceivedValue -= amount * unitPrice
           this.optAvgPrice += unitPrice 
           this.optTotalValue = this.totalAmount * this.optAvgPrice
+        }else if( this.isCall(assetCode) && !this.hasBeenExercised(assetCode) ){
+          this.callReceivedValue -= amount * unitPrice
+          this.optAvgPrice += unitPrice
+          this.optTotalValue = this.totalAmount * this.optAvgPrice
         }else{
           if( this.firstBuy() ){
             this.totalAmount = amount
