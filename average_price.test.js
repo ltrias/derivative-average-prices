@@ -386,7 +386,40 @@ describe('Call and Put Mixed Operations', () =>{
         expect(sell_wrapper).toThrow()
     })
 
-    test.skip('Call and put sell on same month ', () => {
+    test('Call and put sell on same month with underlying asset without exercise', () => {
+        var ap = new AveragePrice("TRPL")
 
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "TRPL4", 300, 2.00)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLL245", -300, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLX245", -300, 1.50)
+        expect(ap.totalAmount).toBe(300);
+        expect(ap.totalValue).toBe(600);
+        expect(ap.avgPrice).toBe(2.00);
+        expect(ap.optTotalValue).toBe(144.00);
+        expect(ap.optAvgPrice).toBeCloseTo(0.48);
+        expect(ap.callReceivedValue).toBe(6);
+        expect(ap.putReceivedValue).toBe(450);
+    });
+
+    test('Call and put sell on same month without underlying asset without exercise', () => {
+        var ap = new AveragePrice("TRPL")
+
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLL245", -300, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLX245", -300, 1.50)
+        expect(ap.totalAmount).toBe(300);
+        expect(ap.totalValue).toBe(600);
+        expect(ap.avgPrice).toBe(2.00);
+        expect(ap.optTotalValue).toBe(144.00);
+        expect(ap.optAvgPrice).toBeCloseTo(0.48);
+        expect(ap.callReceivedValue).toBe(6);
+        expect(ap.putReceivedValue).toBe(450);
+    });
+
+    test.skip('Asset buy with put exercise and call sell without exercise on same month', () => {
+        throw "To bem implemented..."
+    });
+
+    test.skip('Asset buy with put exercise and call exercise on same month', () => {
+        throw "To bem implemented..."
     });
 })
