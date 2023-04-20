@@ -38,7 +38,7 @@ class AveragePrice {
   */
   addOperation(date, operationType, assetCode, amount, unitPrice){
     if( (amount <= 0 && operationType == "Compra") || (amount >= 0 && operationType == "Venda") || assetCode.substring(0, 4) != this.assetName ){
-      throw "Operação, quantidade ou ativo inválidos"
+      throw "Operação, quantidade ou ativo inválidos: " + JSON.stringify(arguments)
     }
 
     this.logOperation(date);
@@ -64,15 +64,24 @@ class AveragePrice {
             this.optTotalValue += unitPrice * amount
             
             this.avgPrice = this.totalValue / this.totalAmount
-            this.optAvgPrice = this.optTotalValue / this.totalAmount//this.avgPrice - this.putReceivedValue / lastAmount
+            this.optAvgPrice = this.optTotalValue / this.totalAmount
             this.optTotalValue = this.optAvgPrice * this.totalAmount
           }
         }
         break;
       case 'Venda':
         if( this.isCall(assetCode) ){
-          this.callReceivedValue += Math.abs(amount) * unitPrice
-          console.log("Venda de call: " + assetCode)
+          if( this.hasBeenExercised(assetCode)){
+            this.totalAmount += amount;
+            this.totalValue = 0
+            this.avgPrice = 0
+            this.optTotalValue = 0
+            this.optAvgPrice = 0
+          }else{
+            this.callReceivedValue += Math.abs(amount) * unitPrice
+            this.optAvgPrice -= unitPrice
+            this.optTotalValue = this.totalAmount * this.optAvgPrice
+          }
         } else if( this.isPut(assetCode) ){
           this.putReceivedValue += Math.abs(amount) * unitPrice
           this.optAvgPrice -= unitPrice

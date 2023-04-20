@@ -241,44 +241,66 @@ describe('Call Operations', () =>{
         expect(ap.isCall('ABCDX123')).toBeFalsy()
     });
 
-    test('Call sell should change put total value ', () => {
+    test('Call sell should change call received value ', () => {
         var ap = new AveragePrice("EZTC")
         ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCA160", -1000, 1)
 
         expect(ap.callReceivedValue).toBe(1000);
     });
 
-    test.skip('Single call sell should change only synth average price', () => {
+    test('Single call sell should change only synth average price', () => {
+        var ap = new AveragePrice("EZTC")
+
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "EZTC3", 1000, 1.50)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "EZTCA160", -1000, 0.02)
+        expect(ap.totalAmount).toBe(1000);
+        expect(ap.totalValue).toBe(1500);
+        expect(ap.avgPrice).toBe(1.50);
+        expect(ap.optTotalValue).toBe(1480);
+        expect(ap.optAvgPrice).toBeCloseTo(1.48, 3);
+        expect(ap.callReceivedValue).toBe(20);
+        expect(ap.putReceivedValue).toBe(0);
     });
 
     test.skip('Multiple call sells ', () => {
 
     });
 
-    test.skip('Exercised call should zero values', () => {
+    test('Exercised call should zero values', () => {
+        var ap = new AveragePrice("TRPL")
 
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Compra", "TRPL4", 300, 2.00)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLL245", -300, 0.02)
+        ap.addOperation(new Date('01 Jan 1970 00:00:00 GMT-3'), "Venda", "TRPLL245E", -300, 1.50)
+        expect(ap.totalAmount).toBe(0);
+        expect(ap.totalValue).toBe(0);
+        expect(ap.avgPrice).toBe(0);
+        expect(ap.optTotalValue).toBe(0);
+        expect(ap.optAvgPrice).toBeCloseTo(0);
+        expect(ap.callReceivedValue).toBe(6);
+        expect(ap.putReceivedValue).toBe(0);
     });
 
     test.skip('Partial sell', () => {
-
+        throw "kabum"
     });
 
     test.skip('Call buyback on same value should not change average prices ', () => {
-
+        throw "kabum"
     });
 
 
     test.skip('Call buyback on same value  without underlying asset should not change average prices', () => {
-
+        throw "kabum"
     });
 
     test.skip('Call buyback on different values should change synth average price', () => {
-
+        throw "kabum"
     });
 
     
     test.skip('Put buyback on different values  without underlying asset should change synth average price', () => {
-
+        throw "kabum"
     });
 })
 
